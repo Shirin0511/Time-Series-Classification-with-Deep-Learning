@@ -124,7 +124,7 @@ Below is a snapshot of the web interface displaying model performance metrics
 ## 🗂 Repository Structure
 
 ```
-├── notebooks/
+├── PythonNotebooks/
 │   ├── ItalyPowerDemand.ipynb
 │   ├── ECG200.ipynb
 │   ├── CinCECGTorso.ipynb
