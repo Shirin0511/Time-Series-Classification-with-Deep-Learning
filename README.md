@@ -127,14 +127,23 @@ Below is a snapshot of the web interface displaying model performance metrics
 ├── PythonNotebooks/
 │   ├── ItalyPowerDemand.ipynb
 │   ├── ECG200.ipynb
-│   ├── CinCECGTorso.ipynb
+│   └── CinCECGTorso.ipynb
 │
-├── web_app/
-│   ├── app.py
-│   ├── templates/
-│   ├── static/
+├── webapp/
+│   ├── app.py                 # Flask application entry point
+│   ├── modeltraining.py       # Model training logic (CNN, Transformer, InceptionTime)
+│   ├── visualizations.py      # Waveform & metric visualisation utilities
+│   ├── requirements.txt       # Python dependencies
+│   │
+│   ├── templates/             # HTML templates (UI pages)
+│   ├── static/                # Static assets (CSS, icons, images)
+│   └── saved_models/          # Stored trained models for reload & comparison
 │
-├── README.md
+├── screenshots/
+│   └── results.png            # Web app output showing evaluation metrics
+│
+└── README.md
+
 ```
 
 ## 🛠 Tools & Technologies
