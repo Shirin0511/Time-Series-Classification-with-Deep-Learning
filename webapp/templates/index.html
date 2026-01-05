@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Time Series Dashboard</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <!-- Optional: silence favicon 404 -->
+  <link rel="icon" href="data:,">
+</head>
+<body>
+
+  <div class="sidebar">
+    <!-- Dashboard Icon -->
+    <a href="#" id="dashboard-icon">
+      <img src="{{ url_for('static', filename='icons/dashboard.png') }}" alt="Dashboard" class="icon">
+    </a>
+
+
+    <!-- Dataset (Icon 2) -->
+    <div class="dropdown-container">
+      <a href="#" id="dataset-icon">
+        <img src="{{ url_for('static', filename='icons/dataset.png') }}" alt="Datasets" class="icon">
+      </a>
+    </div>
+
+    <!-- Model (NEW icon under Dataset) -->
+    <div class="dropdown-container">
+      <a href="#" id="model-icon">
+        <img src="{{ url_for('static', filename='icons/model.png') }}" alt="Models" class="icon">
+      </a>
+    </div>
+    <!-- Visualization (Icon 3) -->
+    <a href="#" id="visualization-icon">
+      <img src="{{ url_for('static', filename='icons/visualization.png') }}" alt="Visualization" class="icon">
+    </a>
+
+    <!-- Hyperparameters (Icon 4) -->
+    <div class="hyperparam-container">
+      <a href="#" id="hyperparam-icon">
+        <img src="{{ url_for('static', filename='icons/hyperparam.png') }}" alt="Hyperparameters" class="icon">
+      </a>
+    </div>
+
+    <!-- Icon 5 (Saved Model Results) -->
+    <a href="#" id="fifthIcon">
+      <img src="{{ url_for('static', filename='icons/summary.png') }}" alt="Saved Model Results" class="icon">
+    </a>
+
+   
+  </div>
+
+    <div class="dashboard-hero">
+    <div class="dashboard-text">
+      <h1>Time Series Dashboard</h1>
+      <p>AI-powered models for time series classification</p>
+    </div>
+  </div>
+
+  <div id="map"></div>
+
+  <!-- User Guide Modal -->
+  <div id="userGuideModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button">&times;</span>
+      <h2>User Guide & Instructions</h2>
+      <ol>
+        <li><strong>Select Dataset:</strong> Select a dataset to begin with.</li>
+        <li><strong>Select Model:</strong> Choose the model that you want to build.</li>
+        <li><strong>Visualizations:</strong> Provides the visualization graphs related to the selected dataset.</li>
+        <li><strong>Hyperparameters:</strong> Allows users to choose different values of hyperparameters and finally train there model on the basis of selected values.</li>
+        <li><strong>Saved Model Results:</strong> Gives a summary of what has been done.</li>
+      </ol>
+    </div>
+  </div>
+
+  <!-- Dataset Selection Modal (Icon 2) -->
+  <div id="datasetSelectionModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="closeDatasetModalButton">&times;</span>
+    <h2>Choose a Dataset</h2>
+
+    <div id="datasetDropdown" class="dataset-modal-dropdown">
+      <div class="dropdown-menu" style="display:block;">
+        <a href="#" data-dataset-id="1">Italy Dataset</a>
+        <a href="#" data-dataset-id="2">CinCECGTorso</a>
+        <a href="#" data-dataset-id="3">ECG200</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+  <!-- Model Selection Modal (NEW) -->
+  <div id="modelSelectionModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="closeModelModalButton">&times;</span>
+      <h2>Choose a Model</h2>
+
+      <div id="modelDropdown" class="dataset-modal-dropdown">
+        <div class="dropdown-menu" style="display:block;">
+          <a href="#" data-model-id="cnn">1D CNN</a>
+          <a href="#" data-model-id="transformer">Transformer</a>
+          <a href="#" data-model-id="inceptiontime">InceptionTime</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+
+
+      </div>
+    </div>
+  </div>
+
+  <!-- Hyperparameter Selection Modal (Icon 4) -->
+  <div id="hyperparamSelectionModal" class="modal">
+    <div class="modal-content">
+      <span class="close-button" id="closeHyperparamModalButton">&times;</span>
+      <h2>Configure Hyperparameters</h2>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Learning Rate</h3>
+          <div id="learningRateDropdown"
+               class="dropdown hyperparam-modal-dropdown"
+               data-parameter-type="learningRate">
+            <button class="dropdown-toggle">Choose</button>
+            <div class="dropdown-menu"></div>
+          </div>
+        </div>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Epochs</h3>
+        <div id="epochsDropdown"
+       class="dropdown hyperparam-modal-dropdown"
+       data-parameter-type="epochs">
+    <button class="dropdown-toggle">Choose</button>
+    <div class="dropdown-menu"><!-- items injected by JS --></div>
+  </div>
+      </div>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Batch Size</h3>
+        <div id="batchSizeDropdown"
+       class="dropdown hyperparam-modal-dropdown"
+       data-parameter-type="batchSize">
+    <button class="dropdown-toggle">Choose</button>
+    <div class="dropdown-menu"><!-- items injected by JS --></div>
+  </div>
+      </div>
+
+      <button id="trainModelButton" class="train-button">Train Model</button>
+    </div>
+  </div>
+
+  <!-- Icon 5 Modal (re-select + load saved model) -->
+  <div id="icon5Modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <button id="icon5CloseBtn" class="close-button">&times;</button>
+      <h3>Select Dataset & Hyperparameters</h3>
+
+        <div class="hyperparam-dropdown-group">
+          <h3>Dataset</h3>
+            <div id="icon5DatasetDropdown"
+       class="dropdown hyperparam-modal-dropdown"
+       data-parameter-type="ds_id">
+    <button class="dropdown-toggle">Choose</button>
+    <div class="dropdown-menu"><!-- items cloned by JS --></div>
+  </div>
+
+       </div>
+
+       <div class="hyperparam-dropdown-group">
+  <h3>Model</h3>
+  <div id="icon5Model" class="dropdown hyperparam-modal-dropdown" data-parameter-type="model">
+    <button class="dropdown-toggle">Choose</button>
+    <div class="dropdown-menu">
+      <a href="#" data-value="cnn">1D CNN</a>
+      <a href="#" data-value="transformer">Transformer</a>
+      <a href="#" data-value="inceptiontime">InceptionTime</a>
+
+    </div>
+  </div>
+</div>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Learning Rate</h3>
+        <div id="icon5LR" class="dropdown hyperparam-modal-dropdown" data-parameter-type="learningRate">
+          <button class="dropdown-toggle">Choose</button>
+          <div class="dropdown-menu">
+            <!-- options injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Epochs</h3>
+        <div id="icon5Epochs" class="dropdown hyperparam-modal-dropdown" data-parameter-type="epochs">
+          <button class="dropdown-toggle">Choose</button>
+          <div class="dropdown-menu">
+            <!-- options injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="hyperparam-dropdown-group">
+        <h3>Batch Size</h3>
+        <div id="icon5Batch" class="dropdown hyperparam-modal-dropdown" data-parameter-type="batchSize">
+          <button class="dropdown-toggle">Choose</button>
+          <div class="dropdown-menu">
+            <!-- options injected by JS -->
+          </div>
+        </div>
+      </div>
+
+      <div class="actions">
+        <button id="icon5ConfirmBtn" class="train-button" disabled>Load Model</button>
+      </div>
+    </div>
+  </div>
+
+<div id="results-modal" style="display:block; position:static; background:none; box-shadow:none;">
+  <div class="modal-content" style="background:none; box-shadow:none; padding:0;">
+    <div id="classification-report-output"></div>
+  </div>
+</div>
+
+
+<script src="{{ url_for('static', filename='js/script.js') }}?v=20250814"></script>
+<div id="errorModal" class="modal">
+  <div class="modal-content">
+    <span class="close-button" id="errorModalClose">&times;</span>
+    <h2>Error</h2>
+    <p id="errorModalMessage">Something went wrong.</p>
+  </div>
+</div>
+</body>
+</html>

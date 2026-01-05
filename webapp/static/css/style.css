@@ -1,0 +1,602 @@
+/* Basic body and layout styling */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Inter', Arial, sans-serif; /* Using Inter font for modern look */
+    /*background-image: url("../images/timeseriesimg.jpg");
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;*/
+    color: #333; /* Default text color */
+    overflow-x: hidden; /* Prevent horizontal scroll */
+}
+
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  bottom: -2px;             /* extend 2px past the bottom edge */
+  height: auto;             /* since we use top+bottom */
+  width: 80px;
+  background: #2c3e50;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-top: 20px;
+  box-shadow: 2px 0 8px rgba(0,0,0,0.3);
+  border-top-right-radius: 15px;
+  border-bottom-right-radius: 15px; /* keep or remove as you like */
+  z-index: 1001;
+}
+
+.sidebar a {
+    margin: 15px 0; /* Vertical spacing between icons */
+    text-decoration: none;
+    display: block;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease; /* Smooth transitions */
+    border-radius: 10px; /* Rounded corners for the clickable area */
+    padding: 5px; /* Padding around the icon for hover effect */
+}
+
+.sidebar a:hover {
+    transform: scale(1.1); /* Enlarge icon on hover */
+    background-color: #34495e; /* Subtle background change on hover */
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.4); /* Add a shadow on hover */
+}
+
+.sidebar .icon {
+    width: 50px !important; /* Adjusted icon size */
+    height: 50px !important; /* Adjusted icon size */
+    margin: 0 !important; /* Remove margin from .icon to let .sidebar a handle it */
+    border-radius: 10px; /* Rounded corners for icons */
+    object-fit: contain; /* Ensures image fits without distortion */
+}
+
+#map {
+  /* fill the viewport; use dynamic viewport unit so the OS bar doesn’t change the math */
+  height: 100dvh;
+
+  margin-left: 80px;
+  margin-right: 30px;
+  margin-top: 0;               /* ✨ no vertical margins */
+  margin-bottom: 0;
+
+  padding: 30px;               /* keep the visual breathing room */
+  box-sizing: border-box;      /* include padding inside the height */
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background-color: transparent;
+  border-radius: 15px;
+  box-shadow: none;
+  flex-grow: 1;
+}
+
+
+
+#map h1 {
+    color: #2c3e50;
+    margin-bottom: 20px;
+    font-size: 2.5em; /* Larger heading */
+    text-shadow: 1px 1px 2px rgba(0,0,0,0.1);
+}
+
+#map p {
+    font-size: 1.2em; /* Larger paragraph text */
+    line-height: 1.8;
+    max-width: 800px; /* Limit width for readability */
+}
+
+/* Modal (Pop-up) Styling */
+.modal {
+    display: none; /* Hidden by default - THIS IS THE CRUCIAL LINE */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top of everything */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgba(0,0,0,0.7); /* Darker overlay */
+    align-items: center; /* Center vertically */
+    justify-content: center; /* Center horizontally */
+    backdrop-filter: blur(5px); /* Subtle blur effect behind modal */
+}
+
+.modal-content {
+    background-color: #ffffff;
+    padding: 35px; /* More padding */
+    border-radius: 15px; /* More rounded corners */
+    box-shadow: 0 8px 25px rgba(0,0,0,0.4); /* Stronger shadow */
+    width: 90%; /* Responsive width */
+    max-width: 750px; /* Slightly wider max width */
+    position: relative;
+    animation: fadeInScale 0.4s ease-out; /* New animation */
+    color: #444; /* Slightly lighter text color for modal */
+    overflow-y: auto; /* Add scroll for content if it overflows */
+    max-height: 90vh; /* Limit modal height to viewport height */
+    
+}
+
+/* Specific styling for the hyperparameter modal content to make it smaller */
+.hyperparam-modal-content {
+    max-width: 450px; /* Reduced max-width for hyperparameter modal */
+    padding: 20px; /* Reduced padding for a more compact look */
+}
+
+/* Close Button */
+.close-button {
+    color: #777; /* Softer color */
+    font-size: 36px; /* Larger close button */
+    font-weight: bold;
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    cursor: pointer;
+    transition: color 0.2s ease, transform 0.2s ease;
+}
+
+.close-button:hover,
+.close-button:focus {
+    color: #333;
+    transform: rotate(90deg); /* Rotate on hover */
+}
+
+/* Modal Text Styling */
+.modal-content h2 {
+    color: #2c3e50;
+    margin-top: 0; /* Ensure heading starts at the top */
+    margin-bottom: 25px;
+    text-align: center;
+    font-size: 2em;
+    border-bottom: 2px solid #e0e0e0; /* Underline effect */
+    padding-bottom: 10px;
+}
+
+/* Adjust heading size for the hyperparameter modal if needed */
+.hyperparam-modal-content h2 {
+    font-size: 1.8em; /* Slightly smaller heading for the compact modal */
+    margin-bottom: 15px; /* Reduce bottom margin */
+    padding-bottom: 8px; /* Slightly reduce padding for heading */
+}
+
+
+.modal-content h3 {
+    color: #34495e;
+    margin-top: 25px;
+    margin-bottom: 10px;
+    font-size: 1.3em;
+}
+
+.modal-content p {
+    line-height: 1.7;
+    margin-bottom: 15px;
+}
+
+.modal-content ol {
+    margin-left: 25px;
+    margin-bottom: 20px;
+    padding-left: 0; /* Remove default padding */
+}
+
+.modal-content ol li {
+    margin-bottom: 12px;
+    line-height: 1.5;
+}
+
+/* New Animation for modal */
+@keyframes fadeInScale {
+    from { opacity: 0; transform: scale(0.95); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+/* Dropdown specific styles */
+.dropdown-container, .hyperparam-container {
+    position: relative; /* Needed for absolute positioning of dropdown menu */
+    display: flex; /* To align the icon */
+    flex-direction: column; /* To stack the icon and menu vertically */
+    align-items: center; /* Center the icon */
+    margin: 15px 0; /* Maintain spacing with other sidebar items */
+    z-index: 100; /* Ensure dropdown is above other sidebar elements */
+}
+
+.dropdown-menu {
+    /* Removed absolute positioning from here as it's now inside a modal */
+    display: none; /* Hidden by default, will be shown by JS when modal opens */
+    background-color: #34495e; /* Darker background for menu */
+    min-width: 160px; /* Minimum width for menu items */
+    box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.4);
+    border-radius: 8px;
+    overflow: hidden; /* Ensures rounded corners are respected */
+    /* Removed animation as the modal itself animates */
+}
+
+/* Specific styling for dropdown when it's inside the modal */
+.dataset-modal-dropdown, .hyperparam-modal-dropdown {
+    position: static; /* Override absolute positioning */
+    margin-top: 20px; /* Space below the heading */
+    width: 100%; /* Take full width of modal content */
+    max-width: 300px; /* Limit width for better appearance */
+    margin-left: auto; /* Center the dropdown */
+    margin-right: auto; /* Center the dropdown */
+}
+
+/* Grouping for hyperparameter dropdowns within the modal */
+.hyperparam-dropdown-group {
+    margin-bottom: 25px; /* Space between each hyperparameter section */
+    text-align: center;
+}
+
+.hyperparam-dropdown-group h3 {
+    margin-bottom: 15px; /* Space between heading and dropdown */
+    color: #2c3e50; /* Darker color for hyperparam headings */
+}
+
+
+.dropdown-menu a {
+    color: white; /* Text color for dropdown items */
+    padding: 12px 16px;
+    text-decoration: none;
+    display: block;
+    text-align: left; /* Align text to the left */
+    transition: background-color 0.2s ease, color 0.2s ease;
+    margin: 0; /* Remove default margin from sidebar a */
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* Subtle separator */
+}
+
+.dropdown-menu a:last-child {
+    border-bottom: none; /* No border for the last item */
+}
+
+.dropdown-menu a:hover {
+    background-color: #556c80; /* Highlight on hover */
+    color: #f0f0f0;
+    transform: none; /* Override sidebar a hover transform */
+}
+
+/* New style for selected dropdown item */
+.dropdown-menu a.selected {
+    background-color: #4CAF50; /* A distinct color for selected item */
+    color: white;
+    font-weight: bold;
+}
+
+/* Animation for dropdown - NEW SECTION */
+@keyframes slideInLeft {
+    from { opacity: 0; transform: translateX(-20px); }
+    to { opacity: 1; transform: translateX(0); }
+}
+
+/* Style for the dataset name next to the icon */
+.dataset-name-display, .hyperparam-name-display {
+    color: white; /* Or any color that fits your sidebar theme */
+    font-size: 0.8em; /* Smaller font size */
+    margin-top: 5px; /* Space between icon and text */
+    text-align: center;
+    width: 100%; /* Ensure it takes full width of its container */
+}
+
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+    .sidebar {
+        width: 65px; /* Slightly smaller sidebar */
+        padding: 15px 0;
+    }
+
+    .sidebar .icon {
+        width: 45px !important;
+        height: 45px !important;
+    }
+
+    #map {
+    height: 100dvh;
+    margin-left: 65px;
+    margin-right: 20px;
+    margin-top: 0;            /* ✨ remove vertical margins */
+    margin-bottom: 0;
+    padding: 20px;
+    box-sizing: border-box;
+  }
+
+    #map h1 {
+        font-size: 2em;
+    }
+
+    #map p {
+        font-size: 1em;
+    }
+
+    .modal-content {
+        width: 95%;
+        padding: 25px;
+    }
+
+    .close-button {
+        font-size: 30px;
+        top: 10px;
+        right: 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.8em;
+    }
+
+    /* Adjust dropdown positioning for smaller sidebar when it was a direct dropdown */
+    /* .dropdown-menu {
+        left: 65px;
+        min-width: 140px;
+    } */
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 55px; /* Even smaller sidebar */
+        padding: 10px 0;
+    }
+
+    .sidebar .icon {
+        width: 40px !important;
+        height: 40px !important;
+    }
+
+     #map {
+    height: 100dvh;
+    margin-left: 55px;
+    margin-right: 15px;
+    margin-top: 0;            /* ✨ remove vertical margins */
+    margin-bottom: 0;
+    padding: 15px;
+    box-sizing: border-box;
+  }
+
+    #map h1 {
+        font-size: 1.8em;
+    }
+
+    #map p {
+        font-size: 0.9em;
+    }
+
+    .modal-content {
+        padding: 20px;
+    }
+
+    .close-button {
+        font-size: 26px;
+        top: 8px;
+        right: 15px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.5em;
+    }
+
+    /* Adjust dropdown positioning for even smaller sidebar when it was a direct dropdown */
+    /* .dropdown-menu {
+        left: 55px;
+        min-width: 120px;
+    } */
+}
+.close-button-visualization {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 2em;
+    color: #fff; /* White color for contrast */
+    background-color: rgba(0, 0, 0, 0.5);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.close-button-visualization:hover {
+    background-color: rgba(0, 0, 0, 0.8);
+}
+
+/* Train Model Button Styling */
+.train-button {
+    background-color: #2ecc71; /* A nice green color */
+    color: #fff;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 8px; /* Rounded corners */
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: bold;
+    margin-top: 25px; /* Spacing from the dropdowns */
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    box-shadow: 0 4px 15px rgba(46, 204, 113, 0.4);
+    width: 100%; /* Full width within the modal */
+}
+
+.train-button:hover {
+    background-color: #27ae60; /* Darker green on hover */
+    transform: translateY(-2px); /* Slight lift effect */
+}
+
+.train-button:active {
+    transform: translateY(0); /* Press down effect */
+}
+
+/* Styling for the classification report output */
+#classification-report-output {
+    white-space: pre-wrap; /* Preserve whitespace and line breaks */
+    font-family: 'Courier New', Courier, monospace; /* Monospace font for better alignment */
+    background-color: #f4f4f9;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    padding: 15px;
+    margin-top: 20px;
+    text-align: left;
+    max-height: 50vh; /* Make it scrollable if the content is long */
+    overflow-y: auto;
+    display: none;
+}
+
+/* Keyframe animation for a spinning effect */
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+/* Apply the animation to the loading spinner */
+#loading-spinner {
+    animation: spin 1.5s linear infinite;
+}
+
+.dropdown-menu.show {
+  display: block !important;
+}
+
+.dataset-modal-dropdown .dropdown-menu {
+  display: block !important;
+  background-color: #34495e;
+  margin-top: 15px;
+}
+
+/* simple button look in the modal */
+.hyperparam-modal-dropdown .dropdown-toggle {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #d0d7de;
+  border-radius: 8px;
+  background: #f6f8fa;
+  cursor: pointer;
+  text-align: left;
+}
+
+/* keep menus nicely placed inside the modal */
+.hyperparam-modal-dropdown .dropdown-menu {
+  position: static;         /* no absolute positioning in modal */
+  width: 100%;
+  margin-top: 8px;
+}
+
+
+.viz-caption {
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin-top: 8px;
+  margin-bottom: 6px;
+  text-align: center;
+  color: #ffffff;                  /* Pure white text */
+  text-shadow: 1px 1px 3px #000;    /* Soft shadow for contrast */
+  letter-spacing: 0.5px;
+}
+
+
+/* Result card for model path + report */
+.result-card{
+  max-width: 960px;
+  margin: 24px auto;
+  padding: 20px 24px;
+  background: rgba(0,0,0,0.72);   /* translucent dark panel */
+  color: #f8f9fa;                 /* light text */
+  border-radius: 16px;
+  box-shadow: 0 6px 24px rgba(0,0,0,0.35);
+  backdrop-filter: blur(3px);
+}
+.result-card h3{
+  margin: 8px 0 8px;
+  font-weight: 700;
+  letter-spacing: .2px;
+  color: #fff;
+}
+.result-card pre{
+  white-space: pre-wrap;          /* keep formatting but wrap long lines */
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  background: rgba(255,255,255,0.06);
+  color: #fff;
+  padding: 12px 14px;
+  border-radius: 10px;
+  overflow: auto;                 /* scroll if long */
+  max-height: 60vh;
+  margin: 6px 0 16px;
+  border: 1px solid rgba(255,255,255,0.08);
+}
+
+
+
+/* Fixed, non-scrolling background image */
+html, body { height: 100%; background-color: #0b1220; }
+
+body { position: relative; }                 /* create a stacking context */
+
+
+/* Ensure app UI renders above the bg layer */
+#main-content, #mainContent, .main-content, .content, .container, #map {
+  position: relative;
+  z-index: 1;
+  background: transparent;
+}
+
+/* Sidebar stays above everything (you likely already have this) */
+.sidebar { position: fixed; z-index: 1001; }
+
+
+/* === Fixed background that never scrolls === */
+html {
+  height: 100%;
+  background: #0b1220 url("../images/timeseriesimg.jpg")
+              center / cover no-repeat fixed;
+}
+body {
+  min-height: 100%;
+  background: transparent;   /* let the html background show through */
+  position: relative;
+}
+
+
+:root { --sidebar-width: 80px; }
+
+.dashboard-text {
+  position: absolute;
+  top: 15%;
+  left: 50%;
+  transform: translateX(-50%);
+  text-align: center;
+  color: white;
+}
+
+.dashboard-text {
+  text-align: center;
+  color: #fff;
+  max-width: min(90vw, 900px);
+}
+
+.dashboard-text h1 {
+  font-size: 3.2rem;
+  line-height: 1.1;
+  margin: 0;
+  font-weight: 800;
+  text-shadow: 0 0 15px rgba(0,0,0,0.6);
+}
+
+.dashboard-text p {
+  margin: 12px 0 0;
+  font-size: 1.25rem;
+  font-weight: 300;
+  opacity: 0.9;
+}
+
+.dashboard-hero { animation: fadeHero .9s ease-out; }
+@keyframes fadeHero {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
