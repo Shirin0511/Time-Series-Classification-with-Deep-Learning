@@ -109,7 +109,7 @@ An integral part of this project is an **AI-powered Time Series Dashboard**, dev
 Below is a snapshot of the web interface displaying model performance metrics
 (Accuracy, Precision, Recall, and F1-score) after training:
 
-![Web App Results](screenshots/results_dashboard.png)
+![Web App Results](screenshots/Results.png)
 
 ### 🔹 Features
 
